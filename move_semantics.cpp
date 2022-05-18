@@ -3,8 +3,12 @@
 #include <iostream>
 #include <utility>
 
+/*
+ * Forward declarations
+ */
 void creatingRvalueReference();
 void referencesCollapsing();
+
 
 /*
  *  The example runner
