@@ -14,4 +14,7 @@ add_executable(Examples
     move_semantics.h
 
     rule_of_five.cpp
-    rule_of_five.h)
+    rule_of_five.h
+
+    sfinae.cpp
+    sfinae.h)

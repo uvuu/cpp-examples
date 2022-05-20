@@ -9,12 +9,13 @@
 void creatingRvalueReference();
 void referencesCollapsing();
 
-
 /*
  *  The example runner
  */
 void runMoveSemanticsExample()
 {
+    std::cout << std::endl << "Move semantics" << std::endl;
+
     creatingRvalueReference();
     referencesCollapsing();
 }

@@ -1,5 +1,6 @@
 #include "rule_of_five.h"
 
+#include <iostream>
 #include <utility>
 
 /*
@@ -14,6 +15,8 @@ void defaultConstructor();
  */
 void runRuleOfFiveExample()
 {
+    std::cout << std::endl << "Rule of Five(Three/Zero)" << std::endl;
+
     zeroRuleClass();
     nonDefaultConstructor();
     defaultConstructor();
