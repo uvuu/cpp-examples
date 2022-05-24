@@ -10,6 +10,9 @@ add_definitions(-DWno-unused-variable)
 add_executable(Examples
     main.cpp
 
+    initialization.cpp
+    initialization.h
+
     move_semantics.cpp
     move_semantics.h
 
