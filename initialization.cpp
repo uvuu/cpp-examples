@@ -12,6 +12,8 @@ void copyInitialization();
 void listInitialization();
 void aggregateInitialization();
 void referenceInitialization();
+void autoInitialization();
+void narrowing();
 
 /*
  *  The example runner
@@ -27,6 +29,8 @@ void runInitializationExample()
     listInitialization();
     aggregateInitialization();
     referenceInitialization();
+    autoInitialization();
+    narrowing();
 }
 
 struct A
@@ -194,4 +198,63 @@ void referenceInitialization()
 
     //given T & ref ; or T && ref ; (since C++11) inside the definition of Class
     //Class::Class(...) : ref ( target ) { ... }
+}
+
+
+// TODO: Add an example about initialize_list
+
+
+void autoInitialization()
+{
+    auto z1 {99};   // z1 is an int
+    auto z2 = {99}; // z2 is std::initializer_list<int>
+    auto z3 = 99;   // z3 is an int
+}
+
+void narrowing()
+{
+    struct A
+    {
+        int a;
+        float b;
+    };
+
+
+    A a{1,3};
+    A a1{1ll, 2.0}; // Why does this works? What about narrowing?
+    long long v = 10000000000ll; // This is OK
+    //A a2{10000000000ll, 2.0}; // The problem with narrowing - error
+
+    long long l = 5;
+    double d = 1.0;
+    //A a2{l, d}; // The problem with narrowing - error
+
+    struct B
+    {
+        //B(bool oa, char* oc){}
+        bool a;
+        char* c;
+    };
+
+    B b{1, "c"}; // This is OK
+    //B b1{2, "c"}; // The problem with narrowing - error
+    //B b2{true, (int*)5}; // Wrong pointer type
+    //B b3{true, true}; // Wrong pointer type
+    //B b4 {true};
+
+    struct C
+    {
+        C(bool oa, char* oc){}
+        C(int oi){};
+        bool a;
+        char* c;
+    };
+
+    //C{true}; // No matching constructor
+    //C c{.a = false, .c = 'a'}; // Seems doesn't work here
+    C c1 = 1;
+    C c2{true};
+    //C c3{l};// Narrowing
+    C c4(l); // There is narrowing too, but it is OK
+    C c5(&a, "");
 }
