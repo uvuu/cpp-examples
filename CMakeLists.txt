@@ -2,10 +2,13 @@ cmake_minimum_required(VERSION 3.5)
 
 project(Examples LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-DWno-unused-variable)
+
+# Disable RTTI
+#add_compile_options(-fno-rtti)
 
 add_executable(Examples
     main.cpp
