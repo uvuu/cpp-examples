@@ -10,6 +10,9 @@ add_definitions(-DWno-unused-variable)
 # Disable RTTI
 #add_compile_options(-fno-rtti)
 
+# Disable RVO
+#add_compile_options(-fno-elide-constructors)
+
 add_executable(Examples
     main.cpp
 
@@ -18,6 +21,9 @@ add_executable(Examples
 
     initialization.cpp
     initialization.h
+
+    initializer_list_problems.cpp
+    initializer_list_problems.h
 
     move_semantics.cpp
     move_semantics.h
