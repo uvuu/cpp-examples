@@ -20,7 +20,7 @@ void runAttributesExample()
 }
 
 //[[nodiscard]] class A{}; // Misplaced attribute
-//class A [[nodiscard]]{}; // Attibute list cannot apear here
+//class A [[nodiscard]]{}; // Attibute list cannot appear here
 class [[nodiscard]] A{};
 A func()
 {
@@ -58,8 +58,10 @@ int func5()
 
 void noReturn()
 {
-    func3();
-    func4();
+    // For some reasons using these two functions leads to segmentation fault in C++20
+    // but they were fine in C++11
+    //func3();
+    //func4();
 }
 
 void fallThrough()
