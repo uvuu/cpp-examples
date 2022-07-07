@@ -1,6 +1,7 @@
 #include "move_semantics.h"
 
 #include <iostream>
+#include <string>
 #include <utility>
 
 /*
@@ -8,6 +9,7 @@
  */
 void creatingRvalueReference();
 void referencesCollapsing();
+void hadlingRvalueReference();
 
 /*
  *  The example runner
@@ -17,6 +19,7 @@ void runMoveSemanticsExample()
     std::cout << std::endl << "Move semantics" << std::endl;
 
     creatingRvalueReference();
+    hadlingRvalueReference();
     referencesCollapsing();
 }
 
@@ -27,6 +30,18 @@ void creatingRvalueReference()
     // int&& r = a; // rvalue reference to type 'int' cannot bind to lvalue of type 'int'
     int&& r1 = static_cast<int&&>(a); // but we may force it
     int&& r2 = std::move(a);          // or use the more gentle and general way from 'utility'
+}
+
+void hadlingRvalueReference()
+{
+    std::string s = "str";
+    std::string s1 = s; // Do you think we will have the movement here? Nope.
+                        // In this case s is an lvalue that has a rvalue reference type.
+
+    // If you really want to move s when you need to perform one of the two next operations.
+    std::string s2 = std::move(s);
+    // or
+    //std::string s3 = static_cast<std::string&&>(s); 
 }
 
 template <typename T>
