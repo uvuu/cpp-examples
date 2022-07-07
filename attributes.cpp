@@ -45,7 +45,8 @@ void noDiscard()
 {
 } // We have a warning here but I don't understand why
 
-//int func4(); // After that we can't define the function with the attribute
+//int func4(); // After that we can't define the function with the attribute.
+               // Note: there is no problem in MSVC and we may uncomment it.
 [[noreturn]] int func4()
 {
     return 1; // The 'no return' warning
@@ -54,6 +55,7 @@ void noDiscard()
 [[noreturn]] int func5(); // This is OK with the definition without the attribute in the signature
 int func5()
 {
+    return 1; // The 'no return' warning
 }
 
 void noReturn()
