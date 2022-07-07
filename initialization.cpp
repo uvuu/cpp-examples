@@ -233,7 +233,7 @@ void narrowing()
     {
         //B(bool oa, char* oc){}
         bool a;
-        char* c;
+        const char* c;
     };
 
     B b{1, "c"}; // This is OK
@@ -244,10 +244,10 @@ void narrowing()
 
     struct C
     {
-        C(bool oa, char* oc){}
+        C(bool oa, const char* oc){}
         C(int oi){};
         bool a;
-        char* c;
+        const char* c;
     };
 
     //C{true}; // No matching constructor
