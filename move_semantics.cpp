@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <type_traits>
+#include <vector>
 #include <utility>
 
 /*
@@ -10,6 +12,8 @@
 void creatingRvalueReference();
 void referencesCollapsing();
 void hadlingRvalueReference();
+void universalReverence(); // I highly recommend reading Scott Mayers' article on this:
+                           // https://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers
 
 /*
  *  The example runner
@@ -21,6 +25,7 @@ void runMoveSemanticsExample()
     creatingRvalueReference();
     hadlingRvalueReference();
     referencesCollapsing();
+    universalReverence();
 }
 
 
@@ -69,10 +74,53 @@ void referencesCollapsing()
     intrvl& r3 = a;       // &
     intrvl&& r4 = 1;      // && only
 
-    // intrvl&& r4 = a; // it is prohibited too because we can't attach lvalue to rvalue reference
+    // intrvl&& r4 = a; // it is prohibited too because we can't attach lvalue to rvalue reference.
+    // Notice that instead of using "typedef" we are able to use "using".
+    // Moreover, the same principle works for decltype expressions.
+    int&& rvi = 1;
+
+    decltype(rvi) di = 1;      // &&
+    decltype(rvi)& rdi1 = rvi; // &
+    decltype(rvi)&& rdi2 = 1;  // &&
+
 
     std::cout << "& " << funcLVR<int&>() << std::endl;   // 1 means &
     std::cout << "& " << funcRVR<int&>() << std::endl;   // 1 means &
     std::cout << "&& " << funcLVR<int&&>() << std::endl; // 0 means &
     std::cout << "&& " << funcRVR<int&&>() << std::endl; // 1 means &&
+}
+
+void f(int&& i) {}; // The argument in rvalue reference
+
+template<typename T>
+void f1(T&& t)   // We don't really know the type of the argument because
+                 // it is an universal reference and the exact value type
+                 // will be know after type deduction and reference collapsing.
+{
+    std::cout << std::boolalpha << std::endl << std::is_rvalue_reference_v<decltype(t)>;
+};
+
+template<typename T>
+void cf1(const T&& t)
+{
+    std::cout << std::boolalpha << std::endl << std::is_rvalue_reference_v<decltype(t)>;
+};
+
+template<typename T>
+void f2(std::vector<T>&& param) {}; // There is no exact T&& expression so there is rvalue reference
+
+void universalReverence()
+{
+    int&& i = 5; // rvalue reference
+    auto&& ari = 5; // rvalue reference
+    auto&& ali = i; // lvalue reference 
+
+    f1(5); // rvalue reference
+    f1(i); // lvalue reference
+
+    cf1(5); // rvalue reference
+    //cf1(i); // We cannot write the code like this because const converts an
+              // universal reference into regular rvalue reference!
+              // This means that only T&& can be an universal reference but
+              // not const T&&!
 }
